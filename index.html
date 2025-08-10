@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Calculadora de Ganancias - Estudio de Tatuajes</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #111;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+    }
+    h1 {
+        color: #ffcc00;
+    }
+    input {
+        padding: 10px;
+        font-size: 16px;
+        width: 200px;
+        text-align: center;
+        border-radius: 8px;
+        border: none;
+        margin-top: 10px;
+    }
+    .resultado {
+        margin-top: 20px;
+        background: #222;
+        padding: 15px;
+        border-radius: 10px;
+        display: inline-block;
+        text-align: left;
+        font-size: 18px;
+    }
+</style>
+</head>
+<body>
+
+<h1>💉 Calculadora de Ganancias</h1>
+<p>Ingresa el precio base del tatuaje (COP):</p>
+<input type="number" id="precioBase" oninput="calcular()" placeholder="Ej: 300000">
+
+<div id="resultados" class="resultado" style="display:none;">
+    <p>💰 Valor sin incremento: <b id="sinIncremento"></b></p>
+    <p>💵 Valor con incremento: <b id="conIncremento"></b></p>
+    <p>🏛 Ganancia estudio (20%): <b id="gananciaEstudio"></b></p>
+    <p>🎨 Ganancia tatuador (80%): <b id="gananciaTatuador"></b></p>
+</div>
+
+<script>
+function formatoCOP(valor) {
+    return valor.toLocaleString("es-CO", { style: "currency", currency: "COP" });
+}
+
+function calcular() {
+    let precioBase = parseFloat(document.getElementById("precioBase").value);
+
+    if (!isNaN(precioBase) && precioBase > 0) {
+        let incremento = 100000;
+        let precioConIncremento = precioBase + incremento;
+        let gananciaEstudio = precioConIncremento * 0.20;
+        let gananciaTatuador = precioConIncremento * 0.80;
+
+        document.getElementById("sinIncremento").textContent = formatoCOP(precioBase);
+        document.getElementById("conIncremento").textContent = formatoCOP(precioConIncremento);
+        document.getElementById("gananciaEstudio").textContent = formatoCOP(gananciaEstudio);
+        document.getElementById("gananciaTatuador").textContent = formatoCOP(gananciaTatuador);
+
+        document.getElementById("resultados").style.display = "block";
+    } else {
+        document.getElementById("resultados").style.display = "none";
+    }
+}
+</script>
+
+</body>
+</html>
