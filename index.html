@@ -2,19 +2,17 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Calculadora de Ganancias - Estudio de Tatuajes</title>
+<title>Comparador de Ganancias - Estudio de Tatuajes</title>
 <style>
     body {
         font-family: Arial, sans-serif;
         background: #111;
         color: #fff;
-        text-align: center;
         padding: 20px;
-        margin: 0;
+        text-align: center;
     }
     h1 {
         color: #ffcc00;
-        margin-bottom: 15px;
     }
     input {
         padding: 10px;
@@ -28,159 +26,141 @@
     .contenedor {
         display: flex;
         justify-content: center;
-        gap: 20px;
-        margin-top: 20px;
+        gap: 30px;
+        margin-top: 30px;
         flex-wrap: wrap;
     }
     .columna {
         background: #222;
         padding: 15px;
         border-radius: 10px;
-        width: 250px;
-        text-align: left;
-        font-size: 16px;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.4s ease-in-out;
+        width: 300px;
     }
-    .columna.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    .columna h2 {
-        text-align: center;
-        margin-bottom: 10px;
+    h2 {
         color: #ffcc00;
+        margin-bottom: 10px;
     }
-    .columna p {
-        margin: 5px 0;
-        transition: all 0.3s ease-in-out;
-    }
-    hr {
-        border: 0;
-        border-top: 1px solid #444;
+    .barra {
+        display: flex;
+        height: 30px;
+        border-radius: 5px;
+        overflow: hidden;
         margin: 10px 0;
+        position: relative;
     }
-    .comparacion {
-        margin-top: 20px;
-        background: #333;
+    .estudio {
+        background-color: #ff5733;
+        text-align: center;
+        line-height: 30px;
+        font-weight: bold;
+    }
+    .tatuador {
+        background-color: #33c1ff;
+        text-align: center;
+        line-height: 30px;
+        font-weight: bold;
+    }
+    .porcentaje {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        font-size: 12px;
+        top: -18px;
+    }
+    .resumen {
+        margin-top: 30px;
+        background: #222;
         padding: 15px;
         border-radius: 10px;
         display: inline-block;
-        text-align: left;
-        font-size: 16px;
-        max-width: 520px;
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.4s ease-in-out;
-    }
-    .comparacion.visible {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    .comparacion h2 {
-        text-align: center;
-        color: #00ffcc;
-    }
-    .valor-animado {
-        display: inline-block;
-        transition: transform 0.2s ease;
-    }
-    .valor-animado.cambio {
-        transform: scale(1.2);
-        color: #00ffcc;
     }
 </style>
 </head>
 <body>
 
-<h1>💉 Calculadora de Ganancias</h1>
+<h1>💉 Comparador de Ganancias</h1>
 <p>Ingresa el precio base del tatuaje (COP):</p>
 <input type="number" id="precioBase" oninput="calcular()" placeholder="Ej: 300000">
 
-<div id="resultados" style="display:none;">
-    <div class="contenedor">
-        <div class="columna" id="columnaCon">
-            <h2>Con incremento</h2>
-            <p>💵 Precio: <b class="valor-animado" id="conIncremento"></b></p>
-            <hr>
-            <p>🏛 Estudio (20%): <b class="valor-animado" id="gananciaEstudio"></b></p>
-            <p>🎨 Tatuador (80%): <b class="valor-animado" id="gananciaTatuador"></b></p>
+<div class="contenedor">
+    <div class="columna" id="colSinInc">
+        <h2>Sin incremento</h2>
+        <p>Total: <b id="totalSinInc"></b></p>
+        <div class="barra">
+            <div class="estudio" id="barraEstudioSinInc"></div>
+            <div class="tatuador" id="barraTatuadorSinInc"></div>
+            <div class="porcentaje" id="porcentajeSinInc"></div>
         </div>
-        <div class="columna" id="columnaSin">
-            <h2>Sin incremento</h2>
-            <p>💰 Precio: <b class="valor-animado" id="sinIncremento"></b></p>
-            <hr>
-            <p>🏛 Estudio (20%): <b class="valor-animado" id="gananciaEstudioSinInc"></b></p>
-            <p>🎨 Tatuador (80%): <b class="valor-animado" id="gananciaTatuadorSinInc"></b></p>
-        </div>
+        <p>🏛 Estudio (20%): <b id="gananciaEstudioSinInc"></b></p>
+        <p>🎨 Tatuador (80%): <b id="gananciaTatuadorSinInc"></b></p>
     </div>
 
-    <div class="comparacion" id="comparacionBox">
-        <h2>📊 Diferencias</h2>
-        <p>💵 Precio total: <b class="valor-animado" id="diffPrecio"></b> (<span id="diffPrecioPct"></span>)</p>
-        <p>🏛 Estudio: <b class="valor-animado" id="diffEstudio"></b> (<span id="diffEstudioPct"></span>)</p>
-        <p>🎨 Tatuador: <b class="valor-animado" id="diffTatuador"></b> (<span id="diffTatuadorPct"></span>)</p>
+    <div class="columna" id="colConInc">
+        <h2>Con incremento</h2>
+        <p>Total: <b id="totalConInc"></b></p>
+        <div class="barra">
+            <div class="estudio" id="barraEstudioConInc"></div>
+            <div class="tatuador" id="barraTatuadorConInc"></div>
+            <div class="porcentaje" id="porcentajeConInc"></div>
+        </div>
+        <p>🏛 Estudio (20% + $50,000): <b id="gananciaEstudioConInc"></b></p>
+        <p>🎨 Tatuador (80% + $50,000): <b id="gananciaTatuadorConInc"></b></p>
     </div>
 </div>
+
+<div class="resumen" id="resumenFinal" style="display:none;"></div>
 
 <script>
 function formatoCOP(valor) {
     return valor.toLocaleString("es-CO", { style: "currency", currency: "COP" });
 }
 
-function animarCambio(elemento, nuevoValor) {
-    if (elemento.textContent !== nuevoValor) {
-        elemento.textContent = nuevoValor;
-        elemento.classList.add("cambio");
-        setTimeout(() => elemento.classList.remove("cambio"), 200);
-    }
-}
-
 function calcular() {
     let precioBase = parseFloat(document.getElementById("precioBase").value);
-
-    if (!isNaN(precioBase) && precioBase > 0) {
-        let incremento = 100000;
-        let precioConIncremento = precioBase + incremento;
-
-        // Con incremento
-        let gananciaEstudio = precioConIncremento * 0.20;
-        let gananciaTatuador = precioConIncremento * 0.80;
-
-        // Sin incremento
-        let gananciaEstudioSinInc = precioBase * 0.20;
-        let gananciaTatuadorSinInc = precioBase * 0.80;
-
-        // Mostrar datos con animación
-        animarCambio(document.getElementById("sinIncremento"), formatoCOP(precioBase));
-        animarCambio(document.getElementById("conIncremento"), formatoCOP(precioConIncremento));
-        animarCambio(document.getElementById("gananciaEstudio"), formatoCOP(gananciaEstudio));
-        animarCambio(document.getElementById("gananciaTatuador"), formatoCOP(gananciaTatuador));
-        animarCambio(document.getElementById("gananciaEstudioSinInc"), formatoCOP(gananciaEstudioSinInc));
-        animarCambio(document.getElementById("gananciaTatuadorSinInc"), formatoCOP(gananciaTatuadorSinInc));
-
-        // Diferencias
-        let diffPrecio = precioConIncremento - precioBase;
-        let diffEstudio = gananciaEstudio - gananciaEstudioSinInc;
-        let diffTatuador = gananciaTatuador - gananciaTatuadorSinInc;
-
-        animarCambio(document.getElementById("diffPrecio"), formatoCOP(diffPrecio));
-        animarCambio(document.getElementById("diffEstudio"), formatoCOP(diffEstudio));
-        animarCambio(document.getElementById("diffTatuador"), formatoCOP(diffTatuador));
-
-        document.getElementById("diffPrecioPct").textContent = ((diffPrecio / precioBase) * 100).toFixed(1) + "%";
-        document.getElementById("diffEstudioPct").textContent = ((diffEstudio / gananciaEstudioSinInc) * 100).toFixed(1) + "%";
-        document.getElementById("diffTatuadorPct").textContent = ((diffTatuador / gananciaTatuadorSinInc) * 100).toFixed(1) + "%";
-
-        // Mostrar secciones con animación
-        document.getElementById("columnaCon").classList.add("visible");
-        document.getElementById("columnaSin").classList.add("visible");
-        document.getElementById("comparacionBox").classList.add("visible");
-        document.getElementById("resultados").style.display = "block";
-    } else {
-        document.getElementById("resultados").style.display = "none";
+    if (isNaN(precioBase) || precioBase <= 0) {
+        document.getElementById("resumenFinal").style.display = "none";
+        return;
     }
+
+    // Sin incremento
+    let gananciaEstudioSinInc = precioBase * 0.20;
+    let gananciaTatuadorSinInc = precioBase * 0.80;
+
+    // Con incremento (incremento fijo repartido)
+    let incrementoEstudio = 50000;
+    let incrementoTatuador = 50000;
+    let gananciaEstudioConInc = gananciaEstudioSinInc + incrementoEstudio;
+    let gananciaTatuadorConInc = gananciaTatuadorSinInc + incrementoTatuador;
+    let totalConInc = precioBase + incrementoEstudio + incrementoTatuador;
+
+    // Escala máxima para ambas barras
+    let maxTotal = totalConInc;
+
+    // Mostrar sin incremento
+    document.getElementById("totalSinInc").textContent = formatoCOP(precioBase);
+    document.getElementById("gananciaEstudioSinInc").textContent = formatoCOP(gananciaEstudioSinInc);
+    document.getElementById("gananciaTatuadorSinInc").textContent = formatoCOP(gananciaTatuadorSinInc);
+    document.getElementById("barraEstudioSinInc").style.width = ((gananciaEstudioSinInc / maxTotal) * 100) + "%";
+    document.getElementById("barraTatuadorSinInc").style.width = ((gananciaTatuadorSinInc / maxTotal) * 100) + "%";
+    document.getElementById("porcentajeSinInc").textContent = "20% / 80%";
+
+    // Mostrar con incremento
+    document.getElementById("totalConInc").textContent = formatoCOP(totalConInc);
+    document.getElementById("gananciaEstudioConInc").textContent = formatoCOP(gananciaEstudioConInc);
+    document.getElementById("gananciaTatuadorConInc").textContent = formatoCOP(gananciaTatuadorConInc);
+    document.getElementById("barraEstudioConInc").style.width = ((gananciaEstudioConInc / maxTotal) * 100) + "%";
+    document.getElementById("barraTatuadorConInc").style.width = ((gananciaTatuadorConInc / maxTotal) * 100) + "%";
+    document.getElementById("porcentajeConInc").textContent = "20%+50k / 80%+50k";
+
+    // Resumen final
+    let diffEstudio = gananciaEstudioConInc - gananciaEstudioSinInc;
+    let diffTatuador = gananciaTatuadorConInc - gananciaTatuadorSinInc;
+    document.getElementById("resumenFinal").innerHTML = `
+        <h3>📊 Diferencias</h3>
+        <p>🏛 Estudio: +${formatoCOP(diffEstudio)} (+${((diffEstudio / gananciaEstudioSinInc) * 100).toFixed(1)}%)</p>
+        <p>🎨 Tatuador: +${formatoCOP(diffTatuador)} (+${((diffTatuador / gananciaTatuadorSinInc) * 100).toFixed(1)}%)</p>
+    `;
+    document.getElementById("resumenFinal").style.display = "inline-block";
 }
 </script>
 
